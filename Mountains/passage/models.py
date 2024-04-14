@@ -13,6 +13,13 @@ class User(models.Model):
         validators=[RegexValidator(regex='^(\+?\d{1,3})?[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$')],
     )
 
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
+
+    def __str__(self):
+        return f'{self.fio} {self.email}'
+
 
 class Pereval(models.Model):
 
@@ -31,8 +38,15 @@ class Pereval(models.Model):
     status = models.CharField(max_length=15, choices=STATUS, verbose_name='status', default='new')
 
     user = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name='User')
-    coords = models.OneToOneField('Coords', on_delete=models.CASCADE, verbose_name='Coords')
+    coord = models.OneToOneField('Coord', on_delete=models.CASCADE, verbose_name='Coord')
     level = models.ForeignKey('Level', on_delete=models.CASCADE, verbose_name='Level')
+
+    class Meta:
+        verbose_name = _("Pereval")
+        verbose_name_plural = _("Perevals")
+
+    def __str__(self):
+        return f'{self.title} {self.status}'
 
 
 class Level(models.Model):
@@ -56,19 +70,23 @@ class Level(models.Model):
     spring = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Auturn level", default='Very easy')
 
     class Meta:
-        verbose_name = "Level"
-        verbose_name_plural = "Levels"
+        verbose_name = _("Level")
+        verbose_name_plural = _("Levels")
+
+    def __str__(self):
+        return f'Уровни сложности перевала: Winter: {self.winter}, Summer: {self.summer}, ' \
+               f'Autumn: {self.autumn}, Spring: {self.spring}.'
 
 
-class Coords(models.Model):
+class Coord(models.Model):
     latitude = models.FloatField(
         max_length=20,
-        validators=[MinValueValidator(-90), MinValueValidator(90)],
+        validators=[MinValueValidator(40), MaxValueValidator(80)],
         verbose_name='Latitude'
     )  # широта
     longitude = models.FloatField(
         max_length=20,
-        validators=[MinValueValidator(-180), MaxValueValidator(180)],
+        validators=[MinValueValidator(0), MaxValueValidator(180)],
         verbose_name='Longitude'
     )  # долгота
     height = models.IntegerField(verbose_name='Height', default=0)
@@ -78,8 +96,8 @@ class Coords(models.Model):
         #     check=Q(latitude__gte=-90) & Q(latitude__lte=90),
         #     name='coords_latitude__range'
         # )
-        verbose_name = 'Coord'
-        verbose_name_plural = 'Coords'
+        verbose_name = _('Coord')
+        verbose_name_plural = _('Coords')
 
     def str(self):
         return f'Height: {self.height}, Latitude: {self.latitude}, Longitude: {self.longitude}.'
@@ -93,8 +111,8 @@ class Image(models.Model):
     pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE,  null=True, blank=True,  related_name='images')
 
     class Meta:
-        verbose_name = "Image"
-        verbose_name_plural = "Images"
+        verbose_name = _("Image")
+        verbose_name_plural = _("Images")
 
     def __str__(self):
         return f'{self.title}'
