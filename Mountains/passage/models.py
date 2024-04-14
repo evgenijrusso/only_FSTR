@@ -32,7 +32,7 @@ class Pereval(models.Model):
 
     beauty_title = models.CharField(max_length=200, verbose_name='Beauty title')
     title = models.CharField(max_length=200, verbose_name='Title')
-    other_titles = models.TextField(verbose_name='Other titles')
+    other_titles = models.TextField(blank=True, null=True, verbose_name='Other titles')
     connect = models.TextField(blank=True, null=True, verbose_name='Connect')
     add_time = models.DateTimeField(auto_now_add=True, verbose_name='Add time')
     status = models.CharField(max_length=15, choices=STATUS, verbose_name='status', default='new')
