@@ -43,21 +43,21 @@ class Level(models.Model):
     very_rough = 'C2'
 
     CHOICE_LEVEL = (
-        (very_easy, _('Мery Easy')),
+        (very_easy, _('Very Easy')),
         (easy, _('Easy')),
         (middle, _('Middle')),
         (rough, _('Rough')),
         (very_rough, _('Very Rough')),
     )
 
-    winter = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Winter level", default='easy')
-    summer = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Spring level", default='easy')
-    autumn = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Summer level", default='easy')
-    spring = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Auturn level", default='easy')
+    winter = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Winter level", default='Very easy')
+    summer = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Spring level", default='Very easy')
+    autumn = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Summer level", default='Very easy')
+    spring = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Auturn level", default='Very easy')
 
     class Meta:
-        verbose_name = "Difficulty level"
-        verbose_name_plural = "Difficulty levels"
+        verbose_name = "Level"
+        verbose_name_plural = "Levels"
 
 
 class Coords(models.Model):
