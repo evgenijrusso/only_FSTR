@@ -50,10 +50,10 @@ class Level(models.Model):
         (very_rough, _('Very Rough')),
     )
 
-    winter = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Winter level")
-    summer = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Spring level")
-    autumn = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Summer level")
-    spring = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Auturn level")
+    winter = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Winter level", default='easy')
+    summer = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Spring level", default='easy')
+    autumn = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Summer level", default='easy')
+    spring = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Auturn level", default='easy')
 
     class Meta:
         verbose_name = "Difficulty level"
