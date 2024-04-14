@@ -1,5 +1,6 @@
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.db.models import CheckConstraint, Q
 
 
@@ -35,19 +36,24 @@ class Pereval(models.Model):
 
 
 class Level(models.Model):
+    very_easy = 'A1'
+    easy = 'A2'
+    middle = 'B'
+    rough = 'C1'
+    very_rough = 'C2'
+
     CHOICE_LEVEL = (
-        (' ', ' '),
-        ('1A', '1A'),
-        ('2A', '2A'),
-        ('3A', '3A'),
-        ('4A', '4A'),
+        (very_easy, _('Мery Easy')),
+        (easy, _('Easy')),
+        (middle, _('Middle')),
+        (rough, _('Rough')),
+        (very_rough, _('Very Rough')),
     )
 
-    winter = models.CharField(max_length=2, choices=CHOICE_LEVEL, default="Winter level")
-    summer = models.CharField(max_length=2, choices=CHOICE_LEVEL, default="Spring level")
-    autumn = models.CharField(max_length=2, choices=CHOICE_LEVEL, default="Summer level")
-    spring = models.CharField(max_length=2, choices=CHOICE_LEVEL, default="Auturn level")
-    objects = models.Manager()
+    winter = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Winter level")
+    summer = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Spring level")
+    autumn = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Summer level")
+    spring = models.CharField(max_length=2, choices=CHOICE_LEVEL, verbose_name="Auturn level")
 
     class Meta:
         verbose_name = "Difficulty level"
