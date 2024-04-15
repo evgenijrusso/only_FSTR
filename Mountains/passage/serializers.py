@@ -22,6 +22,7 @@ class CoordSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
+    img = serializers.URLField()
 
     class Meta:
         model = Image
@@ -55,10 +56,10 @@ class PerevalSerializer(serializers.ModelSerializer):
         level = Level.objects.create(**level)
         pereval = Pereval.objects.create(**validated_data, user=user, coord=coord, level=level)
 
-        # for im in images:
-        #     image = im.pop('image')
-        #     title = im.pop('title')
-        #     Image.objects.create(title=title, image=image, pereval=pereval)
+        for img in images:
+            image = img.pop('image')
+            title = img.pop('title')
+            Image.objects.create(title=title, image=image, pereval=pereval)
         return pereval
 
     def validate(self, value):

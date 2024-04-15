@@ -100,7 +100,7 @@ class Coord(models.Model):
 
 class Image(models.Model):
     title = models.CharField(max_length=255, verbose_name='Title')
-    image_url = models.URLField(blank=True, null=True, verbose_name='Image')
+    img = models.ImageField(upload_to='photos/%Y/%m/%d/',  blank=True, null=True, verbose_name='Image')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE,  null=True, blank=True,  related_name='images')
