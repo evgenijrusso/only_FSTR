@@ -1,7 +1,6 @@
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.db.models import CheckConstraint, Q
 
 
 class User(models.Model):
@@ -92,20 +91,16 @@ class Coord(models.Model):
     height = models.IntegerField(verbose_name='Height', default=0)
 
     class Meta:
-        # constraints = CheckConstraint(
-        #     check=Q(latitude__gte=-90) & Q(latitude__lte=90),
-        #     name='coords_latitude__range'
-        # )
         verbose_name = _('Coord')
         verbose_name_plural = _('Coords')
 
-    def str(self):
+    def __str__(self):
         return f'Height: {self.height}, Latitude: {self.latitude}, Longitude: {self.longitude}.'
 
 
 class Image(models.Model):
-    title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='photos/', blank=True, null=True)
+    title = models.CharField(max_length=255, verbose_name='Title')
+    image_url = models.URLField(blank=True, null=True, verbose_name='Image')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE,  null=True, blank=True,  related_name='images')
@@ -116,4 +111,3 @@ class Image(models.Model):
 
     def __str__(self):
         return f'{self.title}'
-
