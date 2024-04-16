@@ -24,9 +24,9 @@ class Pereval(models.Model):
 
     STATUS = (
         ("new", 'новый'),
-        ("pending", 'В ожидании'),
-        ("accepted", 'Принято'),
-        ("rejected", 'Отклонено'),
+        ("pending", 'если модератор взял в работу'),
+        ("accepted", 'модерация прошла успешно;'),
+        ("rejected", 'модерация прошла, информация не принята'),
     )
 
     beauty_title = models.CharField(max_length=200, verbose_name='Beauty title')

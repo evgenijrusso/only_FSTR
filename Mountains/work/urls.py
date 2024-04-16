@@ -31,7 +31,7 @@ router.register(r'perevals', PerevalViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 
     # path('api/levels/', LevelViewSet.as_view({'get': 'list'})),
 #    path('api/users/', UserViewSet.as_view({'get': 'list'})),
