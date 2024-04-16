@@ -22,7 +22,7 @@ from passage.views import LevelViewSet, PerevalViewSet, UserViewSet, CoordViewSe
 
 router = routers.DefaultRouter()
 #router.register(r'submitData', v)
-router.register(r'users', UserViewSet)
+router.register(r'users', UserViewSet, basename='user')
 router.register(r'levels', LevelViewSet)
 router.register(r'coords', CoordViewSet)
 router.register(r'images', ImageViewSet)
