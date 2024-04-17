@@ -1,12 +1,21 @@
 from rest_framework import serializers
 from drf_writable_nested.serializers import WritableNestedModelSerializer
+from drf_writable_nested.mixins import UniqueFieldsMixin
 from .models import Coord, Level, Pereval, Image, User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['pk', 'fio', 'email', 'phone']
+
+        extra_kwargs = {
+            'pk': {'read_only': True},
+        }
+
+    def create(self, validated_data):
+        user, created = User.objects.get_or_create(**validated_data)
+        return user
 
 
 class LevelSerializer(serializers.ModelSerializer):
@@ -36,7 +45,7 @@ class PerevalSerializer(WritableNestedModelSerializer):
     user = UserSerializer()
     coord = CoordSerializer()
     level = LevelSerializer()
-    images = ImageSerializer(many=True, required=False)
+    images = ImageSerializer(many=True, allow_null=True)
 
     class Meta:
         model = Pereval

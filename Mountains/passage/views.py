@@ -1,6 +1,5 @@
-from django.views.generic import detail
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from .serializers import *
@@ -14,6 +13,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class PerevalViewSet(viewsets.ModelViewSet):
     queryset = Pereval.objects.all()
     serializer_class = PerevalSerializer
+ #   permission_classes = (IsAuthenticatedOrReadOnly, )
 
 
 class LevelViewSet(viewsets.ModelViewSet):
