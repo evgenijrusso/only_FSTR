@@ -21,14 +21,14 @@ class UserSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
 class LevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Level
-        fields = '__all__'
+        fields = ['pk', 'summer', 'autumn', 'winter', 'spring']
 
 
 class CoordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Coord
-        fields = ['latitude', 'longitude', 'height']  # "__all__"
+        fields = ['pk', 'latitude', 'longitude', 'height']  # "__all__"
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -45,7 +45,7 @@ class PerevalSerializer(WritableNestedModelSerializer):
     user = UserSerializer()
     coord = CoordSerializer()
     level = LevelSerializer()
-    images = ImageSerializer(many=True, allow_null=True)
+    images = ImageSerializer(many=True, required=False)
 
     class Meta:
         model = Pereval

@@ -1,8 +1,7 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
-
-from .serializers import *
+from .serializers import UserSerializer, PerevalSerializer, \
+    LevelSerializer, CoordSerializer, ImageSerializer
+from .models import User, Pereval, Level, Coord, Image
 
 
 class UserViewSet(viewsets.ModelViewSet):
