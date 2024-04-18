@@ -26,14 +26,10 @@ router.register(r'users', UserViewSet, basename='user')
 router.register(r'levels', LevelViewSet)
 router.register(r'coords', CoordViewSet)
 router.register(r'images', ImageViewSet)
-router.register(r'perevals', PerevalViewSet)
+router.register(r'submitData', PerevalViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-
-    # path('api/levels/', LevelViewSet.as_view({'get': 'list'})),
-#    path('api/users/', UserViewSet.as_view({'get': 'list'})),
- #   path('api/perevals/', PerevalViewSet.as_view({'get': 'list'}))
+    path('', include(router.urls)),
 ]
