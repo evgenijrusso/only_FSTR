@@ -13,10 +13,6 @@ class UserSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
             'pk': {'read_only': True},
         }
 
-    def create(self, validated_data):
-        user, created = User.objects.get_or_create(**validated_data)
-        return user
-
 
 class LevelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,7 +32,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
-        fields = ['pk', 'title', 'img', 'uploaded_at', 'pereval']
+        fields = ['pk', 'title', 'img']
 
 
 class PerevalSerializer(WritableNestedModelSerializer):
@@ -51,40 +47,40 @@ class PerevalSerializer(WritableNestedModelSerializer):
         model = Pereval
         fields = [
             'pk', 'beauty_title', 'title', 'other_titles', 'connect',
-            'add_time', 'status', 'user', 'coord', 'level', 'images'
+            'add_time', 'user', 'coord', 'level', 'images', 'status',
         ]
         extra_kwargs = {
             'id': {'read_only': True},
             'status': {'read_only': True},
         }
 
-    # def create(self, validated_data, **kwargs):
-    #     user = validated_data.pop('user')
-    #     coord = validated_data.pop('coord')
-    #     level = validated_data.pop('level')
-    #     images = validated_data.pop('images')
-    #
-    #     user, created = User.objects.get_or_create(**user)
-    #     coord = Coord.objects.create(**coord)
-    #     level = Level.objects.create(**level)
-    #     pereval = Pereval.objects.create(**validated_data, user=user, coord=coord, level=level, status='new')
-    #
-    #     for im in images:
-    #         image = im.pop('image')
-    #         title = im.pop('title')
-    #         Image.objects.create(image=image, pereval=pereval, title=title)
-    #
-    #     return pereval
-    #
-    # def validate(self, data):
-    #     if self.instance is not None:
-    #         instance_user = self.instance.user
-    #         data_user = data.get('user')
-    #         validating_user_fields = [
-    #            instance_user.fio != data_user['fio'],
-    #            instance_user.phone != data_user['phone'],
-    #            instance_user.email != data_user['email'],
-    #         ]
-    #         if data_user is not None and any(validating_user_fields):
-    #             raise serializers.ValidationError({'Rejected': 'User data cannot be changed'})
-    #         return data
+    def create(self, validated_data, **kwargs):
+        user = validated_data.pop('user')
+        coord = validated_data.pop('coord')
+        level = validated_data.pop('level')
+        images = validated_data.pop('images')
+
+        user, created = User.objects.get_or_create(**user)
+        coord = Coord.objects.create(**coord)
+        level = Level.objects.create(**level)
+        pereval = Pereval.objects.create(**validated_data, user=user, coord=coord, level=level, status='new')
+
+        for im in images:
+            title = im.pop('title')
+            img = im.pop('img')
+            Image.objects.create(img=img, pereval=pereval, title=title)
+
+        return pereval
+
+    def validate(self, data):
+        if self.instance is not None:
+            instance_user = self.instance.user
+            data_user = data.get('user')
+            validating_user_fields = [
+               instance_user.fio != data_user['fio'],
+               instance_user.phone != data_user['phone'],
+               instance_user.email != data_user['email'],
+            ]
+            if data_user is not None and any(validating_user_fields):
+                raise serializers.ValidationError({'Rejected': 'User data cannot be changed'})
+        return data
