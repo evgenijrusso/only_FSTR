@@ -1,5 +1,4 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .serializers import UserSerializer, PerevalSerializer, \
@@ -15,7 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class PerevalViewSet(viewsets.ModelViewSet):  # permission_classes = (IsAuthenticatedOrReadOnly, )
     queryset = Pereval.objects.all().order_by('-add_time')
     serializer_class = PerevalSerializer
-    filterset_fields = ('beauty_title', 'title', 'user', )
+    filterset_fields = ('user', )
 
 
 """ По заданию. Можно работать по умолчанию и без метода create """
@@ -59,11 +58,6 @@ class LevelViewSet(viewsets.ModelViewSet):
 class CoordViewSet(viewsets.ModelViewSet):
     queryset = Coord.objects.all()
     serializer_class = CoordSerializer
-
-    """ Тестовая проверка метода 'custom_post' url=/api/coords/custom_post/"""
-    @action(detail=False, methods=['POST'])
-    def custom_post(self, request):
-        return Response({'message': 'Custom POST action executed successfully.'})
 
 
 class ImageViewSet(viewsets.ModelViewSet):

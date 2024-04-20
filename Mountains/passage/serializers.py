@@ -77,9 +77,9 @@ class PerevalSerializer(WritableNestedModelSerializer):
             instance_user = self.instance.user
             data_user = data.get('user')
             validating_user_fields = [
-               instance_user.fio != data_user['fio'],
-               instance_user.phone != data_user['phone'],
-               instance_user.email != data_user['email'],
+                instance_user.fio != data_user['fio'],
+                instance_user.phone != data_user['phone'],
+                instance_user.email != data_user['email'],
             ]
             if data_user is not None and any(validating_user_fields):
                 raise serializers.ValidationError({'Rejected': 'User data cannot be changed'})
