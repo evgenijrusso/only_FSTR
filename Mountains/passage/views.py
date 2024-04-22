@@ -5,6 +5,13 @@ from .serializers import UserSerializer, PerevalSerializer, \
     LevelSerializer, CoordSerializer, ImageSerializer
 from .models import User, Pereval, Level, Coord, Image
 
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
+from drf_spectacular.types import OpenApiTypes
+
+# @extend_schema(
+#    summary="Get a list of users",
+#    description="This endpoint returns a list of users.",
+# )
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
