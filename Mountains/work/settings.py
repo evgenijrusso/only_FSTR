@@ -122,6 +122,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.AllowAny'],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
 # Internationalization
@@ -150,5 +151,5 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'Django5 Test Swagger API',
     'DESCRIPTION': 'API documentation for only_FSTR',
     'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    'SERVE_INCLUDE_SCHEMA': False, # исключить эндпоинт /schema
 }

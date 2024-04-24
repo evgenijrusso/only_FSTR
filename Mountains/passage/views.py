@@ -1,17 +1,10 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-
 from .serializers import UserSerializer, PerevalSerializer, \
     LevelSerializer, CoordSerializer, ImageSerializer
 from .models import User, Pereval, Level, Coord, Image
+from django.shortcuts import get_object_or_404
 
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
-from drf_spectacular.types import OpenApiTypes
-
-# @extend_schema(
-#    summary="Get a list of users",
-#    description="This endpoint returns a list of users.",
-# )
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -22,6 +15,16 @@ class PerevalViewSet(viewsets.ModelViewSet):  # permission_classes = (IsAuthenti
     queryset = Pereval.objects.all().order_by('-add_time')
     serializer_class = PerevalSerializer
     filterset_fields = ('user', )
+
+    def partial_update(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        save_pereval = get_object_or_404(Pereval.objects.all(), pk=pk)
+        data = request.data.get('connect')
+        serializer = PerevalSerializer(instance=save_pereval, data=request.data, partial=True)
+        if serializer.is_valid():
+            save_pereval = serializer.save()
+            return Response({'connect': 'state = 1', 'message': 'Entry successfully modified'})
+        return Response(code=400, data="wrong parameters")
 
 
 """ По заданию. Можно работать по умолчанию и без метода create """
